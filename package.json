@@ -1,0 +1,30 @@
+{
+  "name": "motujs",
+  "version": "0.1.0",
+  "description": "JavaScript library to control MOTU AVB audio interfaces",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/delbeke/motujs.git"
+  },
+  "keywords": [
+    "MOTU",
+    "AVB"
+  ],
+  "author": "Pieter Delbeke",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/delbeke/motujs/issues"
+  },
+  "homepage": "https://github.com/delbeke/motujs#readme",
+  "dependencies": {
+    "babel-runtime": "^5.8.20",
+    "whatwg-fetch": "^0.9.0"
+  },
+  "devDependencies": {
+    "gulp-babel": "^5.2.0"
+  }
+}
