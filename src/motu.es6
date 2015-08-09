@@ -43,20 +43,19 @@ class Motu {
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           this._eTag = response.headers.get('ETag')
-          return response
+          return response.json().then(json => {
+            this._parseRawDatastore(json)
+            this._refreshData()
+          }).catch(ex => {
+            console.log('Failed to get data', ex)
+          })
+
         } else if (response.status === 304) {
-          // 304 means no data was changed on the device, ask again
+          // 304 means no data has changed on the device, ask again
           this._refreshData()
         } else {
           console.log('Unexpected http status ' + response.status)
         }
-      }).then(response => {
-        return response.json()
-      }).then(json => {
-        this._parseRawDatastore(json)
-        this._refreshData()
-      }).catch(ex => {
-        console.log('Failed to get data', ex)
       })
   }
 
