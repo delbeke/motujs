@@ -20,6 +20,12 @@ class Motu {
     return this._datastore
   }
 
+  _refreshData () {
+    setTimeout(() => {
+      this._getNewData()
+    }, 0)
+  }
+
   _getNewData () {
     if (!this._address) {
       return
@@ -28,6 +34,8 @@ class Motu {
     const url = 'http://' + this._address + '/datastore'
     let headers = {}
     if (this._eTag > 0) {
+      // MOTU supports long polling:
+      // It waits to send response until something has changed, and increases the ETag number.
       headers['If-None-Match'] = this._eTag
     }
 
@@ -37,16 +45,16 @@ class Motu {
           this._eTag = response.headers.get('ETag')
           return response
         } else if (response.status === 304) {
-          // no data was changed on the device, ask again
-          setTimeout(() => { this._getNewData() }, 0)
+          // 304 means no data was changed on the device, ask again
+          this._refreshData()
         } else {
-          console.log('Invalid http status ' + response.status)
+          console.log('Unexpected http status ' + response.status)
         }
       }).then(response => {
         return response.json()
       }).then(json => {
         this._parseRawDatastore(json)
-        setTimeout(() => { this._getNewData() }, 0)
+        this._refreshData()
       }).catch(ex => {
         console.log('Failed to get data', ex)
       })
