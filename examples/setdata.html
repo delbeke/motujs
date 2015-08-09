@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Example: set data</title>
+    <script src="/node_modules/systemjs/dist/system.js"></script>
+  </head>
+  <body>
+  <p>
+    View source to see code, check console to see what's happening :-)
+  </p>
+  <script>
+  System.config({
+    baseURL: '/build'
+  })
+
+  System.import('motu.js').then(function(Motu) {
+    var motu = new Motu()
+    motu.connect('192.168.0.143')
+
+    setInterval(function () {
+      motu.datastore.set('mix/chan/1/matrix/fader', Math.random())
+    }, 500)
+  })
+
+  </script>
+  </body>
+</html>

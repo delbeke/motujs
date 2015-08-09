@@ -4,7 +4,14 @@ import Datastore from 'datastore.js'
 class Motu {
   constructor () {
     this._eTag = -1
+    this._clientId = Math.round(Math.random() * 10000000)
     this._datastore = new Datastore()
+
+    // wire events (and fix context)
+    var me = this
+    this._datastore.on('changed', function (changes, source) {
+      me._onDatastoreChanged.bind(me, changes, source)()
+    })
   }
 
   connect (address) {
@@ -20,10 +27,33 @@ class Motu {
     return this._datastore
   }
 
+  _onDatastoreChanged (changes, source) {
+    if ((source === 'user') && changes && changes.length) {
+      var data = {}
+      for (let change of changes) {
+        data[change.key] = change.value
+      }
+      this._setNewData(data)
+    }
+  }
+
   _refreshData () {
     setTimeout(() => {
       this._getNewData()
     }, 0)
+  }
+
+  _setNewData (data) {
+    if (!this._address) {
+      return
+    }
+
+    const url = 'http://' + this._address + '/datastore?client=' + this._clientId
+    const json = JSON.stringify(data)
+
+    let formData = new window.FormData()
+    formData.append('json', json)
+    window.fetch(url, {method: 'PATCH', body: formData})
   }
 
   _getNewData () {
@@ -31,7 +61,7 @@ class Motu {
       return
     }
 
-    const url = 'http://' + this._address + '/datastore'
+    const url = 'http://' + this._address + '/datastore?client=' + this._clientId
     let headers = {}
     if (this._eTag > 0) {
       // MOTU supports long polling:
