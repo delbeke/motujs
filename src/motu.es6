@@ -1,5 +1,5 @@
-import '/node_modules/whatwg-fetch/fetch.js'
-import Datastore from 'datastore.js'
+import fetch from 'whatwg-fetch'
+import Datastore from './datastore'
 
 class Motu {
   constructor () {
@@ -94,4 +94,5 @@ class Motu {
   }
 }
 
+window.Motu = Motu
 export default Motu

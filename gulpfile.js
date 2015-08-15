@@ -1,16 +1,30 @@
-var gulp = require('gulp')
-var sourcemaps = require('gulp-sourcemaps')
-var babel = require('gulp-babel')
+const gulp = require('gulp')
+const sourcemaps = require('gulp-sourcemaps')
+const browserify = require('browserify')
+const babelify = require('babelify')
+const fs = require('fs')
+const del = require('del')
 
-gulp.task('dev', function () {
-  return gulp.src('src/**/*.es6')
-    .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('build'))
+gulp.task('dev', ['clean'], function() {
+  return browserify({
+    basedir: 'src',
+    extensions: ['.es6'],
+  })
+  .transform(babelify.configure({
+      "optional": [
+        "runtime"
+      ]
+    }))
+  .require('motu.es6', {entry: true})
+  .bundle()
+  .pipe(fs.createWriteStream('build/motu.js'))
 })
 
-gulp.task('default', ['dev'])
+gulp.task('clean', function (cb) {
+  del(['build/*'], cb)
+})
+
+gulp.task('default', ['clean', 'dev'])
 
 gulp.task('watch', ['dev'], function () {
   gulp.watch('src/**/*.es6', ['dev'])

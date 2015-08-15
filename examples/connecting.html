@@ -3,18 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Example: connecting</title>
-    <script src="/node_modules/systemjs/dist/system.js"></script>
+    <script src="/build/motu.js"></script>
   </head>
   <body>
   <p>
     View source to see code, check console to see what's happening :-)
   </p>
   <script>
-  System.config({
-    baseURL: '/build'
-  })
-
-  System.import('motu.js').then(function(Motu) {
     var motu = new Motu()
     motu.datastore.on('changed', function(a, b) {
       console.log(a.length + ' items changed by ' + b)
@@ -22,8 +17,6 @@
     });
 
     motu.connect('192.168.0.143')
-  })
-
   </script>
   </body>
 </html>

@@ -1,4 +1,4 @@
-import eventEmitter from '/node_modules/eventemitter3/index.js'
+import eventEmitter from 'eventemitter3'
 
 class Datastore extends eventEmitter {
   constructor () {
