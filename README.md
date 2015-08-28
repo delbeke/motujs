@@ -15,14 +15,14 @@ gulp
 ```
 
 ## Usage
-### Connecting
+#### Connecting
 ```js
 var motu = new Motu()
 motu.connect('192.168.0.143')
 motu.disconnect()
 ```
 
-### Get value
+#### Get value
 ```js
 var motu = new Motu()
 motu.connect('192.168.0.143')
@@ -34,7 +34,7 @@ motu.datastore.once('changed', function(a, b) {
 });
 ```
 
-### Listening for changes
+#### Listening for changes
 ```js
 var motu = new Motu()
 motu.datastore.on('changed', function(a, b) {
@@ -43,7 +43,7 @@ motu.datastore.on('changed', function(a, b) {
 motu.connect('192.168.0.143')
 ```
 
-### Making changes
+#### Making changes
 ```js
 var motu = new Motu()
 motu.connect('192.168.0.143')
