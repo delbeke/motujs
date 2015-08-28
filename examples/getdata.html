@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Example: get data</title>
+    <script src="/build/motu.js"></script>
+  </head>
+  <body>
+  <p>
+    View source to see code, check console to see what's happening :-)
+  </p>
+  <script>
+    var motu = new Motu()
+    motu.connect('192.168.0.143')
+    motu.datastore.once('changed', function(a, b) {
+      // datastore is synced
+      var value = motu.datastore.get('mix/chan/1/matrix/fader')
+      console.log('Value of first fader is ', value)
+      motu.disconnect()
+    });
+  </script>
+  </body>
+</html>
