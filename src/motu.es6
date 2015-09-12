@@ -79,7 +79,6 @@ class Motu {
           }).catch(ex => {
             console.log('Failed to get data', ex)
           })
-
         } else if (response.status === 304) {
           // 304 means no data has changed on the device, ask again
           this._refreshData()

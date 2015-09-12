@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Example: set data</title>
+    <script src="/build/motu.js"></script>
+  </head>
+  <body>
+  <p>
+    View source to see code, check console to see what's happening :-)
+  </p>
+  <script>
+    var motu = new Motu()
+    motu.connect('localhost:1280/0001f2fffe0010a9')
+
+    var idx = 0
+    var val = 1
+
+    // reset all channels
+    for (var i = 0; i < 8; i++) {
+      motu.datastore.set('ext/ibank/0/ch/' + i + '/48V', 0)
+      motu.datastore.set('ext/ibank/0/ch/' + i + '/pad', 0)
+    }
+
+    setTimeout(function() {
+      setInterval(function () {
+        motu.datastore.set('ext/ibank/0/ch/' + idx + '/48V', val)
+        motu.datastore.set('ext/ibank/0/ch/' + idx + '/pad', ((val === 1) ? 0 : 1))
+        idx++;
+        if(idx >= 8) {
+          idx = 0
+          val = (val === 1) ? 0 : 1
+        }
+      }, 500)
+    }, 5000)
+  </script>
+  </body>
+</html>

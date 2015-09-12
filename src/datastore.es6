@@ -4,11 +4,13 @@ class Datastore extends eventEmitter {
   constructor () {
     super()
     this._data = {}
+    this._changesQueue = []
   }
 
   merge (newData, source = 'user') {
     let changes = []
     for (var key in newData) {
+      // Only notify about data that was changed
       if (newData.hasOwnProperty(key) && (this._data[key] !== newData[key])) {
         this._data[key] = newData[key]
         changes.push({key: key, value: newData[key]})
@@ -23,7 +25,35 @@ class Datastore extends eventEmitter {
 
   set (key, value, source = 'user') {
     this._data[key] = value
-    this._emitChanges([{key, value}], source)
+    this._changesQueue.push({key, value, source})
+    this._processChangesQueue()
+  }
+
+  _onlyUnique (value, index, self) {
+    return self.indexOf(value) === index
+  }
+
+  _processChangesQueue () {
+    var me = this
+    // We use a timeout of 0 to group all changes made synchronious code block
+    clearTimeout(this._changesQueueTimeout)
+    this._changesQueueTimeout = setTimeout(function () {
+      // Generate distinct list of sources
+      let sources = me._changesQueue
+        .map(o => o.source)
+        .filter(me._onlyUnique)
+
+      // Group changes per source
+      for (const source of sources) {
+        let changesOfSource = me._changesQueue
+          .filter(o => o.source === source)
+          .map(function (o) { return { key: o.key, value: o.value } })
+        me._emitChanges(changesOfSource, source)
+      }
+
+      // Clear the queue
+      me._changesQueue = []
+    }, 0)
   }
 
   _emitChanges (changes, source) {
