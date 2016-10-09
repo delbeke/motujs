@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Example: get data</title>
-    <script src="/build/motu.js"></script>
+    <script src="/dist/motu-debug.js"></script>
   </head>
   <body>
   <p>
@@ -11,12 +11,12 @@
   </p>
   <script>
     var motu = new Motu()
-    motu.connect('localhost:1280/0001f2fffe0010a9')
+    motu.connect('192.168.0.143')
     motu.datastore.once('changed', function(a, b) {
       // datastore is synced
-      var value = motu.datastore.get('mix/chan/1/matrix/fader')
+      var value = motu.datastore.get('mix/chan/0/matrix/fader')
       console.log('Value of first fader is ', value)
-      motu.disconnect()
+      //motu.disconnect()
     });
   </script>
   </body>

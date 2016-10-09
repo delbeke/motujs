@@ -1,6 +1,6 @@
 [Tt]humbs.db
 *.DS_Store
 npm-debug.log
-node_modules/
+/node_modules/
+/lib/
 /dist/
-/build/

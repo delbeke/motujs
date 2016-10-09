@@ -1,6 +1,6 @@
-import eventEmitter from 'eventemitter3'
+import EventEmitter from 'eventemitter3'
 
-class Datastore extends eventEmitter {
+class Datastore extends EventEmitter {
   constructor () {
     super()
     this._data = {}
@@ -9,7 +9,7 @@ class Datastore extends eventEmitter {
 
   merge (newData, source = 'user') {
     let changes = []
-    for (var key in newData) {
+    for (let key in newData) {
       // Only notify about data that was changed
       if (newData.hasOwnProperty(key) && (this._data[key] !== newData[key])) {
         this._data[key] = newData[key]
@@ -34,7 +34,7 @@ class Datastore extends eventEmitter {
   }
 
   _processChangesQueue () {
-    var me = this
+    const me = this
     // We use a timeout of 0 to group all changes made synchronious code block
     clearTimeout(this._changesQueueTimeout)
     this._changesQueueTimeout = setTimeout(function () {
