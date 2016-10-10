@@ -53,7 +53,6 @@
   },
   "dependencies": {
     "eventemitter3": "^2.0.2",
-    "got": "^6.5.0",
     "gulp-babel": "^6.1.2",
     "xmlhttprequest": "^1.8.0"
   }
