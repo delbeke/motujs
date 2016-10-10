@@ -1,5 +1,5 @@
 {
-  "name": "@fauxy/motujs",
+  "name": "motujs",
   "version": "0.1.0",
   "description": "JavaScript library to control MOTU AVB audio interfaces",
   "main": "index.js",
