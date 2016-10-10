@@ -1,6 +1,6 @@
 {
   "name": "motujs",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "JavaScript library to control MOTU AVB audio interfaces",
   "main": "index.js",
   "jsnext:main": "src/motu.js",
